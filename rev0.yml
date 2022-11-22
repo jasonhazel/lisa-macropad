@@ -1,0 +1,114 @@
+units:
+  w: cx
+  h: cy
+points:
+  zones:
+    matrix:
+      columns:
+        one:
+          key.column_net: E6
+        two:
+          spread: w
+          key.column_net: D7
+        three:
+          spread: w
+          key.column_net: C6
+        four:
+          spread: w
+          key.column_net: D4
+      rows:
+        first:
+          padding: h
+          row_net: B4
+        second:
+          padding: h
+          row_net: D0
+        third:
+          padding: h
+          row_net: D1
+        fourth:
+          padding: h
+          row_net: D2
+        fifth:
+          padding: h
+          row_net: D3
+  key:
+    bind: 2
+    footprints:
+      choc:
+        type: choc
+        anchor:
+        nets:
+          from: =colrow
+          to: =column_net
+        params:
+          keycaps: true
+      diode:
+        type: diode
+        anchor:
+          rotate: 0
+          shift: [ 0, -4.5 ]
+        nets:
+          from: =colrow
+          to: =row_net
+        params:
+          via_in_pad: true
+          through_hole: false
+outlines:
+  exports:
+    raw:
+      - type: keys
+        side: left
+        size: [cx, cy]
+        corner: 1
+    board:
+      - type: polygon
+        points:
+          - ref: matrix_one_first
+            shift: [-29, -.5h]
+          - ref: matrix_one_fifth
+            shift: [-29, .5h]
+          - ref: matrix_four_fifth
+            shift: [.5w, .5h]
+          - ref: matrix_four_first
+            shift: [.5w, -.5h]
+    pcb:
+      - type: outline
+        name: board
+        fillet: 1
+pcbs:
+  lisa:
+    outlines:
+      boards:
+        outline: pcb
+    footprints:
+      mcu:
+        type: promicro
+        anchor:
+          ref: matrix_one_fifth
+          shift: [-19, -9]
+          rotate: -90
+        params:
+          orientation: down
+      power:
+        type: slider
+        anchor:
+          ref: matrix_one_first
+          shift: [-w, -6.5]
+          rotate: 180
+        nets:
+          from: RAW
+          to: BAT
+        params:
+          side: F
+      jstph:
+        type: jstph
+        anchor:
+          ref: matrix_one_third
+          shift: [-18.5, 3]
+          rotate: 180
+        nets:
+          pos: BAT
+          neg: GND
+        params:
+          side: F
